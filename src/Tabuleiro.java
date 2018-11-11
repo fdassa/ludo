@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -28,6 +27,7 @@ public class Tabuleiro extends JPanel {
 		secionaTabuleiro();
 		preencheTodosAbrigos();
 		preencheTodasCasasIniciais();
+		preencheTodasUltimasCasas();
 	}
 
 	private void secionaTabuleiro() {
@@ -45,12 +45,28 @@ public class Tabuleiro extends JPanel {
 		preencheAbrigo(520, 240);
 		preencheAbrigo(320, 520);
 	}
-	
+
 	private void preencheTodasCasasIniciais() {
 		preencheCasaInicial(0, 0, Color.GREEN);
 		preencheCasaInicial(0, 360, Color.YELLOW);
 		preencheCasaInicial(360, 0, Color.RED);
 		preencheCasaInicial(360, 360, Color.BLUE);
+	}
+	
+	private void preencheTodasUltimasCasas() {
+		final int[] xVerde = { 240, 240, 300 };
+		final int[] yVerde = { 360, 240, 300 };
+		final int[] xAmarelo = { 360, 240, 300 };
+		final int[] yAmarelo = { 360, 360, 300 };
+		final int[] xVermelho = { 240, 360, 300 };
+		final int[] yVermelho = { 240, 240, 300 };
+		final int[] xAzul = { 360, 360, 300 };
+		final int[] yAzul = { 360, 240, 300 };
+
+		preencheUltimaCasa(xVerde, yVerde, Color.GREEN);
+		preencheUltimaCasa(xAmarelo, yAmarelo, Color.YELLOW);
+		preencheUltimaCasa(xVermelho, yVermelho, Color.RED);
+		preencheUltimaCasa(xAzul, yAzul, Color.BLUE);
 	}
 
 	private void preencheAbrigo(int x, int y) {
@@ -68,11 +84,18 @@ public class Tabuleiro extends JPanel {
 		preenchePeca(x + 40, y + 160);
 		preenchePeca(x + 160, y + 160);
 	}
-
-	private void preenchePeca(int x, int y){
+ 
+	private void preenchePeca(int x, int y) {
 		graphics.setPaint(Color.WHITE);
 		graphics.fill(new Ellipse2D.Double(x, y, 40, 40));
 		graphics.setPaint(Color.BLACK);
 		graphics.draw(new Ellipse2D.Double(x, y, 40, 40));
+	}
+	
+	private void preencheUltimaCasa(int[] x, int[] y, Color cor) {
+		graphics.setPaint(cor);
+		graphics.fillPolygon(x, y, 3);
+		graphics.setPaint(Color.BLACK);
+		graphics.drawPolygon(x, y, 3);
 	}
 }

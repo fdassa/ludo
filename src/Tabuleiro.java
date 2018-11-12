@@ -11,7 +11,7 @@ public class Tabuleiro extends JPanel {
 	Graphics2D graphics;
 
 	public Tabuleiro() {
-		this.setSize(768, 640);
+		this.setSize(640, 640);
 	}
 
 	@Override

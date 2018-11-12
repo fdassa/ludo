@@ -27,14 +27,16 @@ public class Tabuleiro extends JPanel {
 		secionaTabuleiro();
 		preencheTodosAbrigos();
 		preencheTodasCasasIniciais();
-		preencheTodasUltimasCasas();
+		preencheTodasCasasFinais();
+		preencheTodasRetasFinais();
+		preencheTodasCasasSaidas();
 	}
 
 	private void secionaTabuleiro() {
-		for (int column = 0; column < 15; column++) {
-			for (int line = 0; line < 15; line++) {
+		for (int coluna = 0; coluna < 15; coluna++) {
+			for (int linha = 0; linha < 15; linha++) {
 				graphics.setPaint(Color.BLACK);
-				graphics.draw(new Rectangle2D.Double(40 * line, 40 * column, 40, 40));
+				graphics.draw(new Rectangle2D.Double(40 * linha, 40 * coluna, 40, 40));
 			}
 		}
 	}
@@ -52,8 +54,8 @@ public class Tabuleiro extends JPanel {
 		preencheCasaInicial(360, 0, Color.RED);
 		preencheCasaInicial(360, 360, Color.BLUE);
 	}
-	
-	private void preencheTodasUltimasCasas() {
+
+	private void preencheTodasCasasFinais() {
 		final int[] xVerde = { 240, 240, 300 };
 		final int[] yVerde = { 360, 240, 300 };
 		final int[] xAmarelo = { 360, 240, 300 };
@@ -67,6 +69,42 @@ public class Tabuleiro extends JPanel {
 		preencheUltimaCasa(xAmarelo, yAmarelo, Color.YELLOW);
 		preencheUltimaCasa(xVermelho, yVermelho, Color.RED);
 		preencheUltimaCasa(xAzul, yAzul, Color.BLUE);
+	}
+
+	private void preencheTodasRetasFinais() {
+		for (int coluna = 0; coluna < 15; coluna++) {
+			for (int linha = 0; linha < 15; linha++) {
+				if (linha > 0 && linha < 6 && coluna == 7) {
+					preencheCasa(40 * linha, 40 * coluna, Color.GREEN);
+				} else if (linha > 8 && linha < 14 && coluna == 7) {
+					preencheCasa(40 * linha, 40 * coluna, Color.BLUE);
+				} else if (linha == 7 && coluna > 0 && coluna < 6) {
+					preencheCasa(40 * linha, 40 * coluna, Color.RED);
+				} else if (linha == 7 && coluna > 8 && coluna < 14) {
+					preencheCasa(40 * linha, 40 * coluna, Color.YELLOW);
+				}
+			}
+		}
+	}
+
+	private void preencheTodasCasasSaidas() {
+		final int[] xVerde = { 50, 50, 70 };
+		final int[] yVerde = { 250, 270, 260 };
+		final int[] xAmarelo = { 250, 270, 260 };
+		final int[] yAmarelo = { 550, 550, 530 };
+		final int[] xVermelho = { 330, 350, 340 };
+		final int[] yVermelho = { 50, 50, 70 };
+		final int[] xAzul = { 550, 550, 530 };
+		final int[] yAzul = { 330, 350, 340 };
+
+		preencheCasa(40, 240, Color.GREEN);
+		preencheTriangulo(xVerde, yVerde);
+		preencheCasa(240, 520, Color.YELLOW);
+		preencheTriangulo(xAmarelo, yAmarelo);
+		preencheCasa(320, 40, Color.RED);
+		preencheTriangulo(xVermelho, yVermelho);
+		preencheCasa(520, 320, Color.BLUE);
+		preencheTriangulo(xAzul, yAzul);
 	}
 
 	private void preencheAbrigo(int x, int y) {
@@ -84,18 +122,30 @@ public class Tabuleiro extends JPanel {
 		preenchePeca(x + 40, y + 160);
 		preenchePeca(x + 160, y + 160);
 	}
- 
+
 	private void preenchePeca(int x, int y) {
 		graphics.setPaint(Color.WHITE);
 		graphics.fill(new Ellipse2D.Double(x, y, 40, 40));
 		graphics.setPaint(Color.BLACK);
 		graphics.draw(new Ellipse2D.Double(x, y, 40, 40));
 	}
-	
+
 	private void preencheUltimaCasa(int[] x, int[] y, Color cor) {
 		graphics.setPaint(cor);
 		graphics.fillPolygon(x, y, 3);
 		graphics.setPaint(Color.BLACK);
 		graphics.drawPolygon(x, y, 3);
+	}
+
+	private void preencheCasa(int x, int y, Color cor) {
+		graphics.setPaint(cor);
+		graphics.fill(new Rectangle2D.Double(x, y, 40, 40));
+		graphics.setPaint(Color.BLACK);
+		graphics.draw(new Rectangle2D.Double(x, y, 40, 40));
+	}
+
+	private void preencheTriangulo(int[] x, int[] y) {
+		graphics.setPaint(Color.WHITE);
+		graphics.fillPolygon(x, y, 3);
 	}
 }

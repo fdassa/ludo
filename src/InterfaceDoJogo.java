@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 @SuppressWarnings("serial")
 public class InterfaceDoJogo extends JFrame {
+
 	public InterfaceDoJogo() {
 		this.setSize(768, 640);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -15,7 +16,7 @@ public class InterfaceDoJogo extends JFrame {
 		final Menu menu = new Menu();
 		this.add(menu.getBoxMenu(), BorderLayout.EAST);
 	}
-	
+
 	private void centralizaNaTela() {
 		Toolkit tk = Toolkit.getDefaultToolkit();
 		Dimension dim = tk.getScreenSize();

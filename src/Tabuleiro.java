@@ -3,12 +3,26 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import model.Casa;
+import model.Pino;
+import model.Casa.Tipo;
+
 @SuppressWarnings("serial")
 public class Tabuleiro extends JPanel {
-	Graphics2D graphics;
+	private ArrayList<Pino> pinosVermelhos = criaListaDePinos(Color.RED);
+	private ArrayList<Pino> pinosVerdes = criaListaDePinos(Color.GREEN);
+	private ArrayList<Pino> pinosAmarelos = criaListaDePinos(Color.YELLOW);
+	private ArrayList<Pino> pinosAzuis = criaListaDePinos(Color.BLUE);
+
+	private ArrayList<Casa> casasIniciaisVermelhas = criaCasasIniciaisVermelhas();
+	private ArrayList<Casa> casasIniciaisVerdes = criaCasasIniciaisVerdes();
+	private ArrayList<Casa> casasIniciaisAmarelas = criaCasasIniciaisAmarelas();
+	private ArrayList<Casa> casasIniciaisAzuis = criaCasasIniciaisAzuis();
+	private Graphics2D graphics;
 
 	public Tabuleiro() {
 		this.setSize(640, 640);
@@ -19,6 +33,80 @@ public class Tabuleiro extends JPanel {
 		super.paintComponent(g);
 		graphics = (Graphics2D) g;
 		exibeTabuleiro();
+		colocaPinosNasCasasIniciais();
+		desenhaTodosPinos();
+	}
+
+	private void desenhaTodosPinos() {
+		for (int i = 0; i < 4; i++) {
+			desenhaPinosDeUmaCasa(casasIniciaisVermelhas.get(i));
+			desenhaPinosDeUmaCasa(casasIniciaisVerdes.get(i));
+			desenhaPinosDeUmaCasa(casasIniciaisAmarelas.get(i));
+			desenhaPinosDeUmaCasa(casasIniciaisAzuis.get(i));
+		}
+	}
+
+	private void desenhaPinosDeUmaCasa(Casa casa) {
+		final ArrayList<Pino> listaDePinos = casa.getListaDePinos();
+		final int x = casa.getColuna() * 40;
+		final int y = casa.getLinha() * 40;
+		for (Pino pino : listaDePinos) {
+			graphics.setPaint(pino.getCor());
+			graphics.fill(new Ellipse2D.Double(x + 5, y + 5, 30, 30));
+		}
+	}
+
+	private void colocaPinosNasCasasIniciais() {
+		for (int i = 0; i < 4; i++) {
+			casasIniciaisVermelhas.get(i).getListaDePinos().add(pinosVermelhos.get(i));
+			casasIniciaisVerdes.get(i).getListaDePinos().add(pinosVerdes.get(i));
+			casasIniciaisAmarelas.get(i).getListaDePinos().add(pinosAmarelos.get(i));
+			casasIniciaisAzuis.get(i).getListaDePinos().add(pinosAzuis.get(i));
+		}
+	}
+
+	private ArrayList<Pino> criaListaDePinos(Color cor) {
+		final ArrayList<Pino> listaDePinos = new ArrayList<Pino>();
+		for (int i = 0; i < 4; i++) {
+			listaDePinos.add(new Pino(i, cor));
+		}
+		return listaDePinos;
+	}
+
+	private ArrayList<Casa> criaCasasIniciaisVermelhas() {
+		final ArrayList<Casa> casasIniciaisVermelhas = new ArrayList<Casa>();
+		casasIniciaisVermelhas.add(new Casa(Tipo.INICIAL, 1, 1));
+		casasIniciaisVermelhas.add(new Casa(Tipo.INICIAL, 4, 1));
+		casasIniciaisVermelhas.add(new Casa(Tipo.INICIAL, 1, 4));
+		casasIniciaisVermelhas.add(new Casa(Tipo.INICIAL, 4, 4));
+		return casasIniciaisVermelhas;
+	}
+
+	private ArrayList<Casa> criaCasasIniciaisVerdes() {
+		final ArrayList<Casa> casasIniciaisVerdes = new ArrayList<Casa>();
+		casasIniciaisVerdes.add(new Casa(Tipo.INICIAL, 1, 10));
+		casasIniciaisVerdes.add(new Casa(Tipo.INICIAL, 4, 10));
+		casasIniciaisVerdes.add(new Casa(Tipo.INICIAL, 1, 13));
+		casasIniciaisVerdes.add(new Casa(Tipo.INICIAL, 4, 13));
+		return casasIniciaisVerdes;
+	}
+
+	private ArrayList<Casa> criaCasasIniciaisAmarelas() {
+		final ArrayList<Casa> casasIniciaisAmarelas = new ArrayList<Casa>();
+		casasIniciaisAmarelas.add(new Casa(Tipo.INICIAL, 10, 10));
+		casasIniciaisAmarelas.add(new Casa(Tipo.INICIAL, 13, 10));
+		casasIniciaisAmarelas.add(new Casa(Tipo.INICIAL, 10, 13));
+		casasIniciaisAmarelas.add(new Casa(Tipo.INICIAL, 13, 13));
+		return casasIniciaisAmarelas;
+	}
+
+	private ArrayList<Casa> criaCasasIniciaisAzuis() {
+		final ArrayList<Casa> casasIniciaisAzuis = new ArrayList<Casa>();
+		casasIniciaisAzuis.add(new Casa(Tipo.INICIAL, 10, 1));
+		casasIniciaisAzuis.add(new Casa(Tipo.INICIAL, 13, 1));
+		casasIniciaisAzuis.add(new Casa(Tipo.INICIAL, 10, 4));
+		casasIniciaisAzuis.add(new Casa(Tipo.INICIAL, 13, 4));
+		return casasIniciaisAzuis;
 	}
 
 	private void exibeTabuleiro() {
@@ -49,10 +137,10 @@ public class Tabuleiro extends JPanel {
 	}
 
 	private void preencheTodasCasasIniciais() {
-		preencheCasaInicial(0, 0, Color.RED);
-		preencheCasaInicial(0, 360, Color.BLUE);
-		preencheCasaInicial(360, 0, Color.GREEN);
-		preencheCasaInicial(360, 360, Color.YELLOW);
+		preencheTodasCasasIniciais(0, 0, Color.RED);
+		preencheTodasCasasIniciais(0, 360, Color.BLUE);
+		preencheTodasCasasIniciais(360, 0, Color.GREEN);
+		preencheTodasCasasIniciais(360, 360, Color.YELLOW);
 	}
 
 	private void preencheTodasCasasFinais() {
@@ -112,18 +200,18 @@ public class Tabuleiro extends JPanel {
 		graphics.fill(new Rectangle2D.Double(x, y, 40, 40));
 	}
 
-	private void preencheCasaInicial(int x, int y, Color cor) {
+	private void preencheTodasCasasIniciais(int x, int y, Color cor) {
 		graphics.setPaint(cor);
 		graphics.fill(new Rectangle2D.Double(x, y, 240, 240));
 		graphics.setPaint(Color.BLACK);
 		graphics.draw(new Rectangle2D.Double(x, y, 240, 240));
-		preenchePeca(x + 40, y + 40);
-		preenchePeca(x + 160, y + 40);
-		preenchePeca(x + 40, y + 160);
-		preenchePeca(x + 160, y + 160);
+		preencheCasaInicial(x + 40, y + 40);
+		preencheCasaInicial(x + 160, y + 40);
+		preencheCasaInicial(x + 40, y + 160);
+		preencheCasaInicial(x + 160, y + 160);
 	}
 
-	private void preenchePeca(int x, int y) {
+	private void preencheCasaInicial(int x, int y) {
 		graphics.setPaint(Color.WHITE);
 		graphics.fill(new Ellipse2D.Double(x, y, 40, 40));
 		graphics.setPaint(Color.BLACK);

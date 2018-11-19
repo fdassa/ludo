@@ -1,11 +1,13 @@
+package model;
+
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
 
 public class Dado {
 	private static final int NUMERO_DEFAULT = 6;
@@ -32,29 +34,29 @@ public class Dado {
 		BufferedImage img = null;
 		try {
 			switch (numeroDoDado) {
-				case 1:
-					img = ImageIO.read(new File("src/images/Dado1.png"));
-					break;
-				
-				case 2:
-					img = ImageIO.read(new File("src/images/Dado2.png"));
-					break;
-				
-				case 3:
-					img = ImageIO.read(new File("src/images/Dado3.png"));
-					break;
-				
-				case 4:
-					img = ImageIO.read(new File("src/images/Dado4.png"));
-					break;
-				
-				case 5:
-					img = ImageIO.read(new File("src/images/Dado5.png"));
-					break;
-				
-				default:
-					img = ImageIO.read(new File("src/images/Dado6.png"));
-					break;
+			case 1:
+				img = ImageIO.read(new File("src/images/Dado1.png"));
+				break;
+
+			case 2:
+				img = ImageIO.read(new File("src/images/Dado2.png"));
+				break;
+
+			case 3:
+				img = ImageIO.read(new File("src/images/Dado3.png"));
+				break;
+
+			case 4:
+				img = ImageIO.read(new File("src/images/Dado4.png"));
+				break;
+
+			case 5:
+				img = ImageIO.read(new File("src/images/Dado5.png"));
+				break;
+
+			default:
+				img = ImageIO.read(new File("src/images/Dado6.png"));
+				break;
 			}
 		} catch (IOException e) {
 			System.out.println("Erro ao obter a imagem do dado!");

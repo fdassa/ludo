@@ -4,6 +4,8 @@ import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+import model.Dado;
+
 public class Menu implements ActionListener {
 	private Box boxMenu;
 	private JLabel imagemDado;

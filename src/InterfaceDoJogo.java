@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -8,9 +9,11 @@ public class InterfaceDoJogo extends JFrame {
 	public InterfaceDoJogo() {
 		this.setSize(768, 640);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.add(new Tabuleiro());
+		this.add(new Tabuleiro(), BorderLayout.CENTER);
 		this.setVisible(true);
 		centralizaNaTela();
+		final Menu menu = new Menu();
+		this.add(menu.getBoxMenu(), BorderLayout.EAST);
 	}
 	
 	private void centralizaNaTela() {

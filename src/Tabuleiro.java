@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import model.Caminho;
 import model.Casa;
 import model.Pino;
 import model.Casa.Tipo;
@@ -22,10 +23,17 @@ public class Tabuleiro extends JPanel {
 	private ArrayList<Casa> casasIniciaisVerdes = criaCasasIniciaisVerdes();
 	private ArrayList<Casa> casasIniciaisAmarelas = criaCasasIniciaisAmarelas();
 	private ArrayList<Casa> casasIniciaisAzuis = criaCasasIniciaisAzuis();
+	
+	private Caminho caminhoVermelho = new Caminho(Color.RED);
+	private Caminho caminhoVerde = new Caminho(Color.GREEN);
+	private Caminho caminhoAmarelo = new Caminho(Color.YELLOW);
+	private Caminho caminhoAzul = new Caminho(Color.BLUE);
+	
 	private Graphics2D graphics;
 
 	public Tabuleiro() {
 		this.setSize(640, 640);
+		colocaPinosNasCasasIniciais();
 	}
 
 	@Override
@@ -33,8 +41,40 @@ public class Tabuleiro extends JPanel {
 		super.paintComponent(g);
 		graphics = (Graphics2D) g;
 		exibeTabuleiro();
-		colocaPinosNasCasasIniciais();
 		desenhaTodosPinos();
+		revalidate();
+	}
+	
+	public ArrayList<Casa> getCasasIniciaisVermelhas() {
+		return casasIniciaisVermelhas;
+	}
+	
+	public ArrayList<Casa> getCasasIniciaisVerdes() {
+		return casasIniciaisVerdes;
+	}
+	
+	public ArrayList<Casa> getCasasIniciaisAmarelas() {
+		return casasIniciaisAmarelas;
+	}
+	
+	public ArrayList<Casa> getCasasIniciaisAzuis() {
+		return casasIniciaisAzuis;
+	}
+	
+	public Caminho getCaminhoVermelho() {
+		return caminhoVermelho;
+	}
+	
+	public Caminho getCaminhoVerde() {
+		return caminhoVerde;
+	}
+	
+	public Caminho getCaminhoAmarelo() {
+		return caminhoAmarelo;
+	}
+	
+	public Caminho getCaminhoAzul() {
+		return caminhoAzul;
 	}
 
 	private void desenhaTodosPinos() {

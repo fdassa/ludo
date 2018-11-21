@@ -10,9 +10,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class Dado {
-	private static final int NUMERO_DEFAULT = 6;
 	private static Dado instance = null;
-	private int numeroDoDado = NUMERO_DEFAULT;
+	private int numeroDoDado = 0;
 
 	private Dado() {
 	}
@@ -63,5 +62,9 @@ public class Dado {
 			System.exit(0);
 		}
 		return new ImageIcon(img);
+	}
+	
+	public int getNumeroDoDado() {
+		return numeroDoDado;
 	}
 }

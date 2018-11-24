@@ -5,6 +5,7 @@ import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 
@@ -80,6 +81,32 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		}
 	}
 
+	private Casa obtemCasaClicada(int clickedX, int clickedY, Color corDaVez, List<Casa> listaDeCasas) {
+		Casa casaClicada = null;
+		for (int i = 0; i < listaDeCasas.size(); i++) {
+			final Casa casa = listaDeCasas.get(i);
+			final int casaX = casa.getColuna() * 40;
+			final int casaY = casa.getLinha() * 40;
+			if (clickedX > casaX && clickedX < casaX + 40 && clickedY > casaY && clickedY < casaY + 40) {
+				casaClicada = casa;
+			}
+		}
+		return casaClicada;
+	}
+
+	private Pino removePino(Color cor, Casa casa) {
+		Pino pino = null;
+		final ArrayList<Pino> listaDePinos = casa.getListaDePinos();
+		for (int j = 0; j < listaDePinos.size(); j++) {
+			if (listaDePinos.get(j).getCor().equals(cor)) {
+				pino = listaDePinos.get(j);
+				listaDePinos.remove(j);
+				break;
+			}
+		}
+		return pino;
+	}
+
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		final int numeroDoDado = Dado.getInstace().getNumeroDoDado();
@@ -90,26 +117,27 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		final Color cor = obtemCorDaVez(vez);
 		final int clickedX = event.getX();
 		final int clickedY = event.getY();
-		for (int i = 0; i < casasIniciais.size(); i++) {
-			final Casa casa = casasIniciais.get(i);
-			final int casaX = casa.getColuna() * 40;
-			final int casaY = casa.getLinha() * 40;
-			if (clickedX > casaX && clickedX < casaX + 40 && clickedY > casaY && clickedY < casaY + 40) {
-				Pino pino = null;
-				for (int j = 0; i < casa.getListaDePinos().size(); i++) {
-					if (casa.getListaDePinos().get(j).getCor() == cor) {
-						pino = casa.getListaDePinos().get(j);
-						break;
-					}
-				}
-				if(pino != null) {
-					caminho.getListaDeCasas().get(numeroDoDado - 1).getListaDePinos().add(pino);
-					casa.getListaDePinos().remove(pino);
-					rodada.passaParaProximaRodada();
-					menu.habilitaBotaoLancarDado();
-					tabuleiro.repaint();
-					return;
-				}
+		Casa casaClicada = obtemCasaClicada(clickedX, clickedY, cor, casasIniciais);
+		if (casaClicada != null) {
+			final Pino pino = removePino(cor, casaClicada);
+			if (pino != null) {
+				caminho.getListaDeCasas().get(numeroDoDado - 1).getListaDePinos().add(pino);
+				rodada.passaParaProximaRodada();
+				menu.habilitaBotaoLancarDado();
+				tabuleiro.repaint();
+				return;
+			}
+		}
+		casaClicada = obtemCasaClicada(clickedX, clickedY, cor, caminho.getListaDeCasas());
+		if (casaClicada != null) {
+			final Pino pino = removePino(cor, casaClicada);
+			if (pino != null) {
+				final int position = caminho.getListaDeCasas().indexOf(casaClicada);
+				caminho.getListaDeCasas().get(position + numeroDoDado).getListaDePinos().add(pino);
+				rodada.passaParaProximaRodada();
+				menu.habilitaBotaoLancarDado();
+				tabuleiro.repaint();
+				return;
 			}
 		}
 	}

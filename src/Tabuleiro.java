@@ -84,6 +84,12 @@ public class Tabuleiro extends JPanel {
 			desenhaPinosDeUmaCasa(casasIniciaisAmarelas.get(i));
 			desenhaPinosDeUmaCasa(casasIniciaisAzuis.get(i));
 		}
+		for (int i = 0; i < caminhoVermelho.getListaDeCasas().size(); i++) {
+			desenhaPinosDeUmaCasa(caminhoVermelho.getListaDeCasas().get(i));
+			desenhaPinosDeUmaCasa(caminhoVerde.getListaDeCasas().get(i));
+			desenhaPinosDeUmaCasa(caminhoAmarelo.getListaDeCasas().get(i));
+			desenhaPinosDeUmaCasa(caminhoAzul.getListaDeCasas().get(i));
+		}
 	}
 
 	private void desenhaPinosDeUmaCasa(Casa casa) {

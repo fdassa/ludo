@@ -77,7 +77,7 @@ public class Caminho {
 		for (int coluna = 5; coluna > 1; coluna--) {
 			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 8, coluna));
 		}
-		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 1, 8));
+		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 8, 1));
 		for (int linha = 8; linha > 5; linha--) {
 			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 0));
 		}

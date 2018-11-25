@@ -85,7 +85,7 @@ public class Caminho {
 	}
 
 	private void populaListaDeCasasVermelhas() {
-		listaDeCasas.add(new Casa(Tipo.SAIDA, 6, 1));
+		listaDeCasas.add(listaDeCasas.get(0));
 		for (int coluna = 1; coluna < 6; coluna++) {
 			listaDeCasas.add(new Casa(Tipo.RETA_FINAL, 7, coluna));
 		}
@@ -96,7 +96,7 @@ public class Caminho {
 		final List<Casa> listaAuxiliar = listaDeCasas.subList(13, listaDeCasas.size());
 		listaAuxiliar.addAll(listaDeCasas.subList(0, 13));
 		listaDeCasas = listaAuxiliar;
-		listaDeCasas.add(new Casa(Tipo.SAIDA, 1, 8));
+		listaDeCasas.add(listaDeCasas.get(0));
 		for (int linha = 1; linha < 6; linha++) {
 			listaDeCasas.add(new Casa(Tipo.RETA_FINAL, linha, 7));
 		}
@@ -107,7 +107,7 @@ public class Caminho {
 		final List<Casa> listaAuxiliar = listaDeCasas.subList(26, listaDeCasas.size());
 		listaAuxiliar.addAll(listaDeCasas.subList(0, 26));
 		listaDeCasas = listaAuxiliar;
-		listaDeCasas.add(new Casa(Tipo.SAIDA, 8, 13));
+		listaDeCasas.add(listaDeCasas.get(0));
 		for (int coluna = 13; coluna > 8; coluna--) {
 			listaDeCasas.add(new Casa(Tipo.RETA_FINAL, 7, coluna));
 		}
@@ -118,7 +118,7 @@ public class Caminho {
 		final List<Casa> listaAuxiliar = listaDeCasas.subList(39, listaDeCasas.size());
 		listaAuxiliar.addAll(listaDeCasas.subList(0, 39));
 		listaDeCasas = listaAuxiliar;
-		listaDeCasas.add(new Casa(Tipo.SAIDA, 13, 6));
+		listaDeCasas.add(listaDeCasas.get(0));
 		for (int linha = 13; linha > 8; linha--) {
 			listaDeCasas.add(new Casa(Tipo.RETA_FINAL, linha, 7));
 		}

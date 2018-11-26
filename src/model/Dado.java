@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 public class Dado {
 	private static Dado instance = null;
 	private int numeroDoDado = 0;
+	private boolean foiLancado = false;
 
 	private Dado() {
 	}
@@ -26,6 +27,7 @@ public class Dado {
 	public int lancaDado() {
 		final Random rand = new Random();
 		numeroDoDado = rand.nextInt(6) + 1;
+		foiLancado = true;
 		return numeroDoDado;
 	}
 
@@ -66,5 +68,13 @@ public class Dado {
 	
 	public int getNumeroDoDado() {
 		return numeroDoDado;
+	}
+	
+	public boolean foiLancado() {
+		return foiLancado;
+	}
+	
+	public void setFoiLancado(boolean foiLancado) {
+		this.foiLancado = foiLancado;
 	}
 }

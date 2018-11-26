@@ -21,6 +21,7 @@ import model.Rodada.Vez;
 @SuppressWarnings("serial")
 public class InterfaceDoJogo extends JFrame implements MouseListener {
 	private Tabuleiro tabuleiro = Tabuleiro.getInstance();
+	private Dado dado = Dado.getInstace();
 	private Menu menu;
 
 	public InterfaceDoJogo() {
@@ -41,19 +42,6 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		final int yPos = (dim.height / 2) - (this.getHeight() / 2);
 		this.setLocation(xPos, yPos);
 		this.setResizable(false);
-	}
-
-	private ArrayList<Casa> obtemCasasIniciaisDaVez(Vez vez) {
-		switch (vez) {
-		case VERMELHO:
-			return tabuleiro.getCasasIniciaisVermelhas();
-		case VERDE:
-			return tabuleiro.getCasasIniciaisVerdes();
-		case AMARELO:
-			return tabuleiro.getCasasIniciaisAmarelas();
-		default:
-			return tabuleiro.getCasasIniciaisAzuis();
-		}
 	}
 
 	private Caminho obtemCaminhoDaVez(Vez vez) {
@@ -110,26 +98,18 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		final int numeroDoDado = Dado.getInstace().getNumeroDoDado();
+		if (!dado.foiLancado()) {
+			return;
+		}
+		
+		final int numeroDoDado = dado.getNumeroDoDado();
 		final Rodada rodada = Rodada.getInstance();
 		final Vez vez = rodada.getVez();
-		final ArrayList<Casa> casasIniciais = obtemCasasIniciaisDaVez(vez);
 		final Caminho caminho = obtemCaminhoDaVez(vez);
 		final Color cor = obtemCorDaVez(vez);
 		final int clickedX = event.getX();
 		final int clickedY = event.getY();
-		Casa casaClicada = obtemCasaClicada(clickedX, clickedY, cor, casasIniciais);
-		if (casaClicada != null) {
-			final Pino pino = removePino(cor, casaClicada);
-			if (pino != null) {
-				caminho.getListaDeCasas().get(numeroDoDado - 1).getListaDePinos().add(pino);
-				rodada.passaParaProximaRodada();
-				menu.habilitaBotaoLancarDado();
-				tabuleiro.repaint();
-				return;
-			}
-		}
-		casaClicada = obtemCasaClicada(clickedX, clickedY, cor, caminho.getListaDeCasas());
+		Casa casaClicada =  obtemCasaClicada(clickedX, clickedY, cor, caminho.getListaDeCasas());
 		if (casaClicada != null) {
 			final Pino pino = removePino(cor, casaClicada);
 			if (pino != null) {

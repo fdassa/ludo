@@ -88,6 +88,22 @@ public class Tabuleiro extends JPanel {
 		return caminhoAzul;
 	}
 
+	public ArrayList<Pino> getPinosVermelhos() {
+		return pinosVermelhos;
+	}
+
+	public ArrayList<Pino> getPinosVerdes() {
+		return pinosVerdes;
+	}
+
+	public ArrayList<Pino> getPinosAmarelos() {
+		return pinosAmarelos;
+	}
+
+	public ArrayList<Pino> getPinosAzuis() {
+		return pinosAzuis;
+	}
+
 	private void desenhaTodosPinos() {
 		for (int i = 0; i < 4; i++) {
 			desenhaPinosDeUmaCasa(casasIniciaisVermelhas.get(i));

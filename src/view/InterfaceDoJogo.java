@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import controller.FacadeMovimento;
 import model.Caminho;
 import model.Casa;
 import model.Dado;
@@ -83,17 +84,14 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		return casaClicada;
 	}
 
-	private Pino removePino(Color cor, Casa casa) {
-		Pino pino = null;
+	private Pino encontraPinoPelaCor(Color cor, Casa casa) {
 		final ArrayList<Pino> listaDePinos = casa.getListaDePinos();
 		for (int j = 0; j < listaDePinos.size(); j++) {
 			if (listaDePinos.get(j).getCor().equals(cor)) {
-				pino = listaDePinos.get(j);
-				listaDePinos.remove(j);
-				break;
+				return listaDePinos.get(j);
 			}
 		}
-		return pino;
+		return null;
 	}
 
 	@Override
@@ -101,7 +99,7 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		if (!dado.foiLancado()) {
 			return;
 		}
-		
+		final FacadeMovimento facadeMovimento = FacadeMovimento.getInstace();
 		final int numeroDoDado = dado.getNumeroDoDado();
 		final Rodada rodada = Rodada.getInstance();
 		final Vez vez = rodada.getVez();
@@ -111,10 +109,12 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		final int clickedY = event.getY();
 		Casa casaClicada =  obtemCasaClicada(clickedX, clickedY, cor, caminho.getListaDeCasas());
 		if (casaClicada != null) {
-			final Pino pino = removePino(cor, casaClicada);
-			if (pino != null) {
+			final Pino pino = encontraPinoPelaCor(cor, casaClicada);
+			if (pino != null && facadeMovimento.movimentoValido(pino)) {
+				casaClicada.getListaDePinos().remove(pino);
 				final int position = caminho.getListaDeCasas().indexOf(casaClicada);
 				caminho.getListaDeCasas().get(position + numeroDoDado).getListaDePinos().add(pino);
+				pino.setPosicaoNoCaminho(position + numeroDoDado);
 				rodada.passaParaProximaRodada();
 				menu.habilitaBotaoLancarDado();
 				tabuleiro.repaint();

@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,13 +20,12 @@ import model.Rodada.Vez;
 
 @SuppressWarnings("serial")
 public class InterfaceDoJogo extends JFrame implements MouseListener {
-	private Tabuleiro tabuleiro;
+	private Tabuleiro tabuleiro = Tabuleiro.getInstance();
 	private Menu menu;
 
 	public InterfaceDoJogo() {
 		this.setSize(768, 640);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		tabuleiro = new Tabuleiro();
 		tabuleiro.addMouseListener(this);
 		this.add(tabuleiro, BorderLayout.CENTER);
 		this.setVisible(true);

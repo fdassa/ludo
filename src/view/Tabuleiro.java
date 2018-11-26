@@ -1,3 +1,5 @@
+package view;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,6 +16,8 @@ import model.Casa.Tipo;
 
 @SuppressWarnings("serial")
 public class Tabuleiro extends JPanel {
+	private static Tabuleiro instance = null;
+
 	private ArrayList<Pino> pinosVermelhos = criaListaDePinos(Color.RED);
 	private ArrayList<Pino> pinosVerdes = criaListaDePinos(Color.GREEN);
 	private ArrayList<Pino> pinosAmarelos = criaListaDePinos(Color.YELLOW);
@@ -23,17 +27,24 @@ public class Tabuleiro extends JPanel {
 	private ArrayList<Casa> casasIniciaisVerdes = criaCasasIniciaisVerdes();
 	private ArrayList<Casa> casasIniciaisAmarelas = criaCasasIniciaisAmarelas();
 	private ArrayList<Casa> casasIniciaisAzuis = criaCasasIniciaisAzuis();
-	
+
 	private Caminho caminhoVermelho = new Caminho(Color.RED);
 	private Caminho caminhoVerde = new Caminho(Color.GREEN);
 	private Caminho caminhoAmarelo = new Caminho(Color.YELLOW);
 	private Caminho caminhoAzul = new Caminho(Color.BLUE);
-	
+
 	private Graphics2D graphics;
 
-	public Tabuleiro() {
+	private Tabuleiro() {
 		this.setSize(640, 640);
 		colocaPinosNasCasasIniciais();
+	}
+
+	public static Tabuleiro getInstance() {
+		if (instance == null) {
+			instance = new Tabuleiro();
+		}
+		return instance;
 	}
 
 	@Override
@@ -44,35 +55,35 @@ public class Tabuleiro extends JPanel {
 		desenhaTodosPinos();
 		revalidate();
 	}
-	
+
 	public ArrayList<Casa> getCasasIniciaisVermelhas() {
 		return casasIniciaisVermelhas;
 	}
-	
+
 	public ArrayList<Casa> getCasasIniciaisVerdes() {
 		return casasIniciaisVerdes;
 	}
-	
+
 	public ArrayList<Casa> getCasasIniciaisAmarelas() {
 		return casasIniciaisAmarelas;
 	}
-	
+
 	public ArrayList<Casa> getCasasIniciaisAzuis() {
 		return casasIniciaisAzuis;
 	}
-	
+
 	public Caminho getCaminhoVermelho() {
 		return caminhoVermelho;
 	}
-	
+
 	public Caminho getCaminhoVerde() {
 		return caminhoVerde;
 	}
-	
+
 	public Caminho getCaminhoAmarelo() {
 		return caminhoAmarelo;
 	}
-	
+
 	public Caminho getCaminhoAzul() {
 		return caminhoAzul;
 	}

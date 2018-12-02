@@ -31,6 +31,12 @@ public class Dado {
 		return numeroDoDado;
 	}
 
+	public int lancaDado(int numero) {
+		numeroDoDado = numero;
+		foiLancado = true;
+		return numeroDoDado;
+	}
+
 	public ImageIcon getImagemIcon() {
 		BufferedImage img = null;
 		try {

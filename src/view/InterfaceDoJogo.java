@@ -112,9 +112,8 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 			final Pino pino = encontraPinoPelaCor(cor, casaClicada);
 			if (pino != null && facadeMovimento.movimentoValido(pino)) {
 				casaClicada.getListaDePinos().remove(pino);
-				final int position = caminho.getListaDeCasas().indexOf(casaClicada);
-				caminho.getListaDeCasas().get(position + numeroDoDado).getListaDePinos().add(pino);
-				pino.setPosicaoNoCaminho(position + numeroDoDado);
+				final int posicao = caminho.getListaDeCasas().indexOf(casaClicada);
+				facadeMovimento.inserePinoNaCasa(posicao + numeroDoDado, pino);
 				rodada.passaParaProximaRodada();
 				menu.habilitaBotaoLancarDado();
 				tabuleiro.repaint();

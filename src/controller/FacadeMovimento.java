@@ -11,6 +11,7 @@ import model.Dado;
 import model.Pino;
 import model.Rodada;
 import model.Rodada.Vez;
+import view.Menu;
 import view.Tabuleiro;
 
 public class FacadeMovimento {
@@ -58,6 +59,7 @@ public class FacadeMovimento {
 					listaDePinos.remove(0);
 					caminho.getListaDeCasas().get(0).getListaDePinos().add(pino);
 					pino.setPosicaoNoCaminho(0);
+					rodada.passaParaProximaRodada();
 					return true;
 				}
 			}
@@ -69,16 +71,33 @@ public class FacadeMovimento {
 			if (pinoId != -1) {
 				final Pino ultimoPinoMovimentado = listaDePinos.get(pinoId);
 				final Casa casaDoPino = caminho.getListaDeCasas().get(ultimoPinoMovimentado.getPosicaoNoCaminho());
-				casaDoPino.getListaDePinos().remove(ultimoPinoMovimentado);
-				for (Casa casa : casasIniciais) {
-					if (casa.getListaDePinos().isEmpty()) {
-						casa.getListaDePinos().add(ultimoPinoMovimentado);
-						ultimoPinoMovimentado.setPosicaoNoCaminho(-1);
+				if (casaDoPino.getTipo() != Tipo.RETA_FINAL && casaDoPino.getTipo() != Tipo.FINAL) {
+					casaDoPino.getListaDePinos().remove(ultimoPinoMovimentado);
+					for (Casa casa : casasIniciais) {
+						if (casa.getListaDePinos().isEmpty()) {
+							casa.getListaDePinos().add(ultimoPinoMovimentado);
+							ultimoPinoMovimentado.setPosicaoNoCaminho(-1);
+							break;
+						}
 					}
 				}
 			}
 			dado.resetaContagemDe6();
+			rodada.passaParaProximaRodada();
 			return true;
+		} else if (numeroDoDado == 6) {
+			final ArrayList<Casa> casasComBarreira = obtemCasaComBarreiraPelaCor(caminho.getListaDeCasas(),
+					caminho.getCor());
+			for (Casa casa : casasComBarreira) {
+				final Pino pino = casa.getListaDePinos().get(0);
+				if(movimentoValido(pino)){
+					casa.getListaDePinos().remove(pino);
+					final int posicao = caminho.getListaDeCasas().indexOf(casa);
+					inserePinoNaCasa(posicao + numeroDoDado, pino);
+					tabuleiro.atualizaUltimoPinoMovimentado(pino);
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -95,7 +114,7 @@ public class FacadeMovimento {
 		if (tipoDaCasaDoPino == Tipo.FINAL) {
 			return false;
 		}
-		final List<Casa> caminhoPercorrido = caminho.getListaDeCasas().subList(posicaoDoPino,
+		final List<Casa> caminhoPercorrido = caminho.getListaDeCasas().subList(posicaoDoPino + 1,
 				posicaoDoPino + numeroDoDado + 1);
 		final Casa casaDestino = caminhoPercorrido.get(caminhoPercorrido.size() - 1);
 		return !temBarreiraNoCaminho(caminhoPercorrido) && !casaCheiaProPino(casaDestino, pino, caminho.getCor());
@@ -148,6 +167,18 @@ public class FacadeMovimento {
 				}
 			}
 		}
+	}
+
+	private ArrayList<Casa> obtemCasaComBarreiraPelaCor(List<Casa> listaDeCasas, Color cor) {
+		final ArrayList<Casa> casasComBarreira = new ArrayList<Casa>();
+		for (Casa casa : listaDeCasas) {
+			final List<Pino> listaDePinos = casa.getListaDePinos();
+			if (listaDePinos.size() > 1 && listaDePinos.get(0).getCor().equals(cor)
+					&& listaDePinos.get(0).getCor().equals(listaDePinos.get(1).getCor())) {
+				casasComBarreira.add(casa);
+			}
+		}
+		return casasComBarreira;
 	}
 
 	private boolean temBarreiraNoCaminho(List<Casa> listaDeCasas) {

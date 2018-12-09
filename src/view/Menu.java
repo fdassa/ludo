@@ -16,6 +16,7 @@ import model.Rodada;
 import model.Rodada.Vez;
 
 public class Menu implements ActionListener {
+	private static Menu instance = null;
 	private Box boxMenu;
 	private JLabel imagemDado;
 	private JButton botaoLancarDado;
@@ -28,7 +29,14 @@ public class Menu implements ActionListener {
 	private Dado dado;
 	private FacadeMovimento facadeMovimento;
 
-	public Menu() {
+	public static Menu getInstance() {
+		if (instance == null) {
+			instance = new Menu();
+		}
+		return instance;
+	}
+	
+	private Menu() {
 		dado = Dado.getInstace();
 		facadeMovimento = FacadeMovimento.getInstace();
 		boxMenu = Box.createVerticalBox();
@@ -107,16 +115,8 @@ public class Menu implements ActionListener {
 		imagemDado.setBackground(obtemCorDaVez(rodada.getVez()));
 		botaoLancarDado.setEnabled(false);
 
-		if (facadeMovimento.realizaJogadasAutomaticas()) {
+		if (facadeMovimento.realizaJogadasAutomaticas() || !facadeMovimento.existeJogadasPossiveis()) {
 			final Tabuleiro tabuleiro = Tabuleiro.getInstance();
-			rodada.passaParaProximaRodada();
-			habilitaBotaoLancarDado();
-			tabuleiro.repaint();
-		} else if (!facadeMovimento.existeJogadasPossiveis()) {
-			final Tabuleiro tabuleiro = Tabuleiro.getInstance();
-			if (dado.getNumeroDoDado() != 6) {
-				rodada.passaParaProximaRodada();
-			}
 			habilitaBotaoLancarDado();
 			tabuleiro.repaint();
 		}

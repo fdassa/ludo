@@ -32,7 +32,7 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 		this.add(tabuleiro, BorderLayout.CENTER);
 		this.setVisible(true);
 		centralizaNaTela();
-		menu = new Menu();
+		menu = Menu.getInstance();
 		this.add(menu.getBoxMenu(), BorderLayout.EAST);
 	}
 

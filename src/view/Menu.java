@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.border.EmptyBorder;
 
 import controller.FacadeMovimento;
 import model.Dado;
@@ -108,14 +107,21 @@ public class Menu implements ActionListener {
 		imagemDado.setBackground(obtemCorDaVez(rodada.getVez()));
 		botaoLancarDado.setEnabled(false);
 
-		if (facadeMovimento.realizaJogadasAutomaticas() || !facadeMovimento.existeJogadasPossiveis()) {
+		if (facadeMovimento.realizaJogadasAutomaticas()) {
 			final Tabuleiro tabuleiro = Tabuleiro.getInstance();
 			rodada.passaParaProximaRodada();
 			habilitaBotaoLancarDado();
 			tabuleiro.repaint();
+		} else if (!facadeMovimento.existeJogadasPossiveis()) {
+			final Tabuleiro tabuleiro = Tabuleiro.getInstance();
+			if (dado.getNumeroDoDado() != 6) {
+				rodada.passaParaProximaRodada();
+			}
+			habilitaBotaoLancarDado();
+			tabuleiro.repaint();
 		}
 	}
-	
+
 	private Color obtemCorDaVez(Vez vez) {
 		Color cor;
 		switch (vez) {

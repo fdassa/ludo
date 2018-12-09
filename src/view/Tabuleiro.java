@@ -33,6 +33,11 @@ public class Tabuleiro extends JPanel {
 	private Caminho caminhoAmarelo = new Caminho(Color.YELLOW);
 	private Caminho caminhoAzul = new Caminho(Color.BLUE);
 
+	private int ultimoPinoMovimentadoVermelho = -1;
+	private int ultimoPinoMovimentadoVerde = -1;
+	private int ultimoPinoMovimentadoAmarelo = -1;
+	private int ultimoPinoMovimentadoAzul = -1;
+
 	private Graphics2D graphics;
 
 	private Tabuleiro() {
@@ -54,6 +59,31 @@ public class Tabuleiro extends JPanel {
 		exibeTabuleiro();
 		desenhaTodosPinos();
 		revalidate();
+	}
+
+	public void atualizaUltimoPinoMovimentado(Pino ultimoPinoMovimentado) {
+		Color cor = ultimoPinoMovimentado.getCor();
+		if (cor.equals(Color.RED)) {
+			ultimoPinoMovimentadoVermelho = ultimoPinoMovimentado.getId();
+		} else if (cor.equals(Color.GREEN)) {
+			ultimoPinoMovimentadoVerde = ultimoPinoMovimentado.getId();
+		} else if (cor.equals(Color.YELLOW)) {
+			ultimoPinoMovimentadoAmarelo = ultimoPinoMovimentado.getId();
+		} else {
+			ultimoPinoMovimentadoAzul = ultimoPinoMovimentado.getId();
+		}
+	}
+
+	public int obtemUltimoPinoMovimentadoPelaCor(Color cor) {
+		if (cor.equals(Color.RED)) {
+			return ultimoPinoMovimentadoVermelho;
+		} else if (cor.equals(Color.GREEN)) {
+			return ultimoPinoMovimentadoVerde;
+		} else if (cor.equals(Color.YELLOW)) {
+			return ultimoPinoMovimentadoAmarelo;
+		} else {
+			return ultimoPinoMovimentadoAzul;
+		}
 	}
 
 	public ArrayList<Casa> getCasasIniciaisVermelhas() {

@@ -13,6 +13,7 @@ public class Dado {
 	private static Dado instance = null;
 	private int numeroDoDado = 0;
 	private boolean foiLancado = false;
+	private int contagemDe6 = 0;
 
 	private Dado() {
 	}
@@ -28,12 +29,14 @@ public class Dado {
 		final Random rand = new Random();
 		numeroDoDado = rand.nextInt(6) + 1;
 		foiLancado = true;
+		contagemDe6 = numeroDoDado == 6 ? contagemDe6 + 1 : 0;
 		return numeroDoDado;
 	}
 
 	public int lancaDado(int numero) {
 		numeroDoDado = numero;
 		foiLancado = true;
+		contagemDe6 = numeroDoDado == 6 ? contagemDe6 + 1 : 0;
 		return numeroDoDado;
 	}
 
@@ -70,6 +73,14 @@ public class Dado {
 			System.exit(0);
 		}
 		return new ImageIcon(img);
+	}
+	
+	public boolean limiteDe6Seguidos() {
+		return contagemDe6 == 3;
+	}
+	
+	public void resetaContagemDe6(){
+		contagemDe6 = 0;
 	}
 	
 	public int getNumeroDoDado() {

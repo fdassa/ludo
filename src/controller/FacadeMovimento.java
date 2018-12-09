@@ -61,6 +61,24 @@ public class FacadeMovimento {
 					return true;
 				}
 			}
+		} else if (dado.limiteDe6Seguidos()) {
+			final ArrayList<Casa> casasIniciais = obtemCasasIniciaisDaVez(vez);
+			final ArrayList<Pino> listaDePinos = obtemPinosDaVez(vez);
+			final Color corDaVez = listaDePinos.get(0).getCor();
+			final int pinoId = tabuleiro.obtemUltimoPinoMovimentadoPelaCor(corDaVez);
+			if (pinoId != -1) {
+				final Pino ultimoPinoMovimentado = listaDePinos.get(pinoId);
+				final Casa casaDoPino = caminho.getListaDeCasas().get(ultimoPinoMovimentado.getPosicaoNoCaminho());
+				casaDoPino.getListaDePinos().remove(ultimoPinoMovimentado);
+				for (Casa casa : casasIniciais) {
+					if (casa.getListaDePinos().isEmpty()) {
+						casa.getListaDePinos().add(ultimoPinoMovimentado);
+						ultimoPinoMovimentado.setPosicaoNoCaminho(-1);
+					}
+				}
+			}
+			dado.resetaContagemDe6();
+			return true;
 		}
 		return false;
 	}
@@ -109,10 +127,9 @@ public class FacadeMovimento {
 
 		final Pino pinoDaCasa = listaDePinos.get(0);
 		final boolean pinosDaMesmaCor = pinoDaCasa.getCor().equals(pino.getCor());
-		final boolean temPinoDaCorDaCasa = pinoDaCasa.getCor().equals(corDaCasa) 
-				|| pino.getCor().equals(corDaCasa);
+		final boolean temPinoDaCorDaCasa = pinoDaCasa.getCor().equals(corDaCasa) || pino.getCor().equals(corDaCasa);
 
-		if (pinosDaMesmaCor || casaDestino.getTipo() == Tipo.ABRIGO 
+		if (pinosDaMesmaCor || casaDestino.getTipo() == Tipo.ABRIGO
 				|| casaDestino.getTipo() == Tipo.SAIDA && temPinoDaCorDaCasa) {
 			listaDePinos.add(pino);
 			pino.setPosicaoNoCaminho(posicaoDaCasaDestino);

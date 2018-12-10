@@ -119,8 +119,8 @@ public class FacadeMovimento {
 		final Caminho caminho = obtemCaminhoDaVez(vez);
 		final int posicaoDoPino = pino.getPosicaoNoCaminho();
 		final Tipo tipoDaCasaDoPino = caminho.getListaDeCasas().get(posicaoDoPino).getTipo();
-		if (tipoDaCasaDoPino == Tipo.RETA_FINAL) {
-			return true;
+		if (tipoDaCasaDoPino == Tipo.RETA_FINAL ) {
+			return caminho.getListaDeCasas().size() < posicaoDoPino + numeroDePassos - 1;
 		}
 		if (tipoDaCasaDoPino == Tipo.FINAL) {
 			return false;
@@ -148,6 +148,12 @@ public class FacadeMovimento {
 		final Casa casaDestino = caminho.getListaDeCasas().get(posicaoDaCasaDestino);
 		final Color corDaCasa = caminho.getCor();
 		final ArrayList<Pino> listaDePinos = casaDestino.getListaDePinos();
+		
+		if (casaDestino.getTipo() == Tipo.FINAL) {
+			listaDePinos.add(pino);
+			pino.setPosicaoNoCaminho(posicaoDaCasaDestino);
+			return true;
+		}
 
 		if (listaDePinos.isEmpty()) {
 			listaDePinos.add(pino);

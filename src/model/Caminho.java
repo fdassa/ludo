@@ -8,10 +8,11 @@ import model.Casa.Tipo;
 
 public class Caminho {
 	private Color cor;
-	private List<Casa> listaDeCasas = criaListaDeCasasComuns();
+	private List<Casa> listaDeCasas = new ArrayList<Casa>();
 
-	public Caminho(Color cor) {
+	public Caminho(Color cor, List<Casa> listaDeCasasComuns) {
 		this.cor = cor;
+		this.listaDeCasas.addAll(listaDeCasasComuns);
 		populaListaDeCasas(cor);
 	}
 
@@ -34,56 +35,7 @@ public class Caminho {
 			populaListaDeCasasAzuis();
 		}
 	}
-
-	private ArrayList<Casa> criaListaDeCasasComuns() {
-		final ArrayList<Casa> listaDeCasasComuns = new ArrayList<Casa>();
-		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 6, 1));
-		for (int coluna = 2; coluna < 6; coluna++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 6, coluna));
-		}
-		for (int linha = 5; linha > 1; linha--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 6));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 1, 6));
-		for (int coluna = 6; coluna < 9; coluna++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 0, coluna));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 1, 8));
-		for (int linha = 2; linha < 6; linha++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 8));
-		}
-		for (int coluna = 9; coluna < 13; coluna++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 6, coluna));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 6, 13));
-		for (int linha = 6; linha < 9; linha++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 14));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 8, 13));
-		for (int coluna = 12; coluna > 8; coluna--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 8, coluna));
-		}
-		for (int linha = 9; linha < 13; linha++) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 8));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 13, 8));
-		for (int coluna = 8; coluna > 5; coluna--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 14, coluna));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 13, 6));
-		for (int linha = 12; linha > 8; linha--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 6));
-		}
-		for (int coluna = 5; coluna > 1; coluna--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 8, coluna));
-		}
-		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 8, 1));
-		for (int linha = 8; linha > 5; linha--) {
-			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 0));
-		}
-		return listaDeCasasComuns;
-	}
-
+	
 	private void populaListaDeCasasVermelhas() {
 		listaDeCasas.add(listaDeCasas.get(0));
 		for (int coluna = 1; coluna < 6; coluna++) {

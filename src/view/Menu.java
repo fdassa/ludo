@@ -35,7 +35,7 @@ public class Menu implements ActionListener {
 		}
 		return instance;
 	}
-	
+
 	private Menu() {
 		dado = Dado.getInstace();
 		facadeMovimento = FacadeMovimento.getInstace();
@@ -117,7 +117,9 @@ public class Menu implements ActionListener {
 
 		if (facadeMovimento.realizaJogadasAutomaticas() || !facadeMovimento.existeJogadasPossiveis()) {
 			final Tabuleiro tabuleiro = Tabuleiro.getInstance();
-			habilitaBotaoLancarDado();
+			if (Rodada.getInstance().isRodadaExtra()) {
+				habilitaBotaoLancarDado();
+			}
 			tabuleiro.repaint();
 		}
 	}

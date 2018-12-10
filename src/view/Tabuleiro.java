@@ -28,10 +28,10 @@ public class Tabuleiro extends JPanel {
 	private ArrayList<Casa> casasIniciaisAmarelas = criaCasasIniciaisAmarelas();
 	private ArrayList<Casa> casasIniciaisAzuis = criaCasasIniciaisAzuis();
 
-	private Caminho caminhoVermelho = new Caminho(Color.RED);
-	private Caminho caminhoVerde = new Caminho(Color.GREEN);
-	private Caminho caminhoAmarelo = new Caminho(Color.YELLOW);
-	private Caminho caminhoAzul = new Caminho(Color.BLUE);
+	private Caminho caminhoVermelho;
+	private Caminho caminhoVerde;
+	private Caminho caminhoAmarelo;
+	private Caminho caminhoAzul;
 
 	private int ultimoPinoMovimentadoVermelho = -1;
 	private int ultimoPinoMovimentadoVerde = -1;
@@ -42,6 +42,7 @@ public class Tabuleiro extends JPanel {
 
 	private Tabuleiro() {
 		this.setSize(640, 640);
+		inicializaCaminhos();
 		colocaPinosNasCasasIniciais();
 	}
 
@@ -134,6 +135,63 @@ public class Tabuleiro extends JPanel {
 		return pinosAzuis;
 	}
 
+	private void inicializaCaminhos() {
+		final ArrayList<Casa> listaDeCasasComuns = criaListaDeCasasComuns();
+		caminhoVermelho = new Caminho(Color.RED, listaDeCasasComuns);
+		caminhoVerde = new Caminho(Color.GREEN, listaDeCasasComuns);
+		caminhoAmarelo = new Caminho(Color.YELLOW, listaDeCasasComuns);
+		caminhoAzul = new Caminho(Color.BLUE, listaDeCasasComuns);
+	}
+	
+	private ArrayList<Casa> criaListaDeCasasComuns() {
+		final ArrayList<Casa> listaDeCasasComuns = new ArrayList<Casa>();
+		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 6, 1));
+		for (int coluna = 2; coluna < 6; coluna++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 6, coluna));
+		}
+		for (int linha = 5; linha > 1; linha--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 6));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 1, 6));
+		for (int coluna = 6; coluna < 9; coluna++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 0, coluna));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 1, 8));
+		for (int linha = 2; linha < 6; linha++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 8));
+		}
+		for (int coluna = 9; coluna < 13; coluna++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 6, coluna));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 6, 13));
+		for (int linha = 6; linha < 9; linha++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 14));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 8, 13));
+		for (int coluna = 12; coluna > 8; coluna--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 8, coluna));
+		}
+		for (int linha = 9; linha < 13; linha++) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 8));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 13, 8));
+		for (int coluna = 8; coluna > 5; coluna--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 14, coluna));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.SAIDA, 13, 6));
+		for (int linha = 12; linha > 8; linha--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 6));
+		}
+		for (int coluna = 5; coluna > 1; coluna--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, 8, coluna));
+		}
+		listaDeCasasComuns.add(new Casa(Tipo.ABRIGO, 8, 1));
+		for (int linha = 8; linha > 5; linha--) {
+			listaDeCasasComuns.add(new Casa(Tipo.NORMAL, linha, 0));
+		}
+		return listaDeCasasComuns;
+	}
+
 	private void desenhaTodosPinos() {
 		for (int i = 0; i < 4; i++) {
 			desenhaPinosDeUmaCasa(casasIniciaisVermelhas.get(i));
@@ -147,8 +205,7 @@ public class Tabuleiro extends JPanel {
 			desenhaPinosDeUmaCasa(caminhoAmarelo.getListaDeCasas().get(i));
 			desenhaPinosDeUmaCasa(caminhoAzul.getListaDeCasas().get(i));
 		}
-	}
-
+	}	
 	private void desenhaPinosDeUmaCasa(Casa casa) {
 		final ArrayList<Pino> listaDePinos = casa.getListaDePinos();
 		final int x = casa.getColuna() * 40;

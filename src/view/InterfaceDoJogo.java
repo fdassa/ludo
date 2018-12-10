@@ -96,12 +96,12 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent event) {
-		if (!dado.foiLancado()) {
+		final Rodada rodada = Rodada.getInstance();
+		if (!dado.foiLancado() && !rodada.isRodadaExtra()) {
 			return;
 		}
 		final FacadeMovimento facadeMovimento = FacadeMovimento.getInstace();
 		final int numeroDoDado = dado.getNumeroDoDado();
-		final Rodada rodada = Rodada.getInstance();
 		final Vez vez = rodada.getVez();
 		final Caminho caminho = obtemCaminhoDaVez(vez);
 		final Color cor = obtemCorDaVez(vez);
@@ -113,12 +113,16 @@ public class InterfaceDoJogo extends JFrame implements MouseListener {
 			if (pino != null && facadeMovimento.movimentoValido(pino)) {
 				casaClicada.getListaDePinos().remove(pino);
 				final int posicao = caminho.getListaDeCasas().indexOf(casaClicada);
-				facadeMovimento.inserePinoNaCasa(posicao + numeroDoDado, pino);
+				final int numeroDePassos = rodada.isRodadaExtra() ? 6 : numeroDoDado;
+				final boolean rodadaExtra = facadeMovimento.inserePinoNaCasa(posicao + numeroDePassos, pino);
+				rodada.setRodadaExtra(rodadaExtra);
 				tabuleiro.atualizaUltimoPinoMovimentado(pino);
-				if (numeroDoDado != 6) {
-					rodada.passaParaProximaRodada();
+				if (!rodada.isRodadaExtra()) {
+					if (numeroDoDado != 6) {
+						rodada.passaParaProximaRodada();
+					}
+					menu.habilitaBotaoLancarDado();
 				}
-				menu.habilitaBotaoLancarDado();
 				tabuleiro.repaint();
 				return;
 			}

@@ -1,26 +1,27 @@
 package model;
 
-import java.awt.Color;
-
 public class Rodada {
 	private static Rodada instance = null;
+
 	public enum Vez {
 		VERMELHO, VERDE, AMARELO, AZUL
 	}
+
 	private Vez vez = Vez.VERMELHO;
-	
-	private Rodada(){
+	private boolean rodadaExtra = false;
+
+	private Rodada() {
 	}
-	
+
 	public static Rodada getInstance() {
 		if (instance == null) {
 			instance = new Rodada();
 		}
 		return instance;
 	}
-	
+
 	public void passaParaProximaRodada() {
-		switch(vez) {
+		switch (vez) {
 		case VERMELHO:
 			vez = Vez.VERDE;
 			break;
@@ -35,8 +36,16 @@ public class Rodada {
 			break;
 		}
 	}
-	
+
 	public Vez getVez() {
 		return vez;
+	}
+
+	public boolean isRodadaExtra() {
+		return rodadaExtra;
+	}
+
+	public void setRodadaExtra(boolean rodadaExtra) {
+		this.rodadaExtra = rodadaExtra;
 	}
 }
